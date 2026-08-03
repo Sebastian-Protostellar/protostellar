@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const CONTACT_TO = process.env.CONTACT_TO ?? "brokr@protostellar.com";
+const CONTACT_TO = process.env.CONTACT_TO ?? "brokr@protostellar.co";
 const FROM_EMAIL =
-  process.env.CONTACT_FROM ?? "Protostellar & Co. <onboarding@resend.dev>";
+  process.env.CONTACT_FROM ?? "Protostellar & Co. <noreply@brokr.app>";
 
 type ContactBody = {
   name?: unknown;
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "Contact form is not configured yet. Please email brokr@protostellar.com directly.",
+          "Contact form is not configured yet. Please email brokr@protostellar.co directly.",
       },
       { status: 503 },
     );
