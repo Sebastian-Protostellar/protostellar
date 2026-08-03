@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 const CONTACT_TO = process.env.CONTACT_TO ?? "brokr@protostellar.com";
+const FROM_EMAIL =
+  process.env.CONTACT_FROM ?? "Protostellar & Co. <onboarding@resend.dev>";
 
 type ContactBody = {
   name?: unknown;
@@ -48,10 +50,10 @@ export async function POST(request: Request) {
     );
   }
 
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  const apiKey = process.env.RESEND_API_KEY;
 
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-    console.error("[contact] SMTP not configured");
+  if (!apiKey) {
+    console.error("[contact] RESEND_API_KEY not configured");
     return NextResponse.json(
       {
         error:
@@ -61,30 +63,15 @@ export async function POST(request: Request) {
     );
   }
 
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT ?? 587),
-    secure: SMTP_PORT === "465",
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-
-  const from = process.env.SMTP_FROM ?? SMTP_USER;
+  const resend = new Resend(apiKey);
 
   try {
-    await transporter.sendMail({
-      from,
-      to: CONTACT_TO,
+    const { error } = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [CONTACT_TO],
       replyTo: email,
       subject: `Protostellar & Co. — message from ${name}`,
-      text: [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        "",
-        message,
-      ].join("\n"),
+      text: [`Name: ${name}`, `Email: ${email}`, "", message].join("\n"),
       html: `
         <p><strong>Name:</strong> ${escapeHtml(name)}</p>
         <p><strong>Email:</strong> ${escapeHtml(email)}</p>
@@ -92,6 +79,14 @@ export async function POST(request: Request) {
         <p>${escapeHtml(message).replace(/\n/g, "<br />")}</p>
       `,
     });
+
+    if (error) {
+      console.error("[contact] resend error:", error);
+      return NextResponse.json(
+        { error: "Failed to send message. Please try again." },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
