@@ -51,7 +51,9 @@ export function Hero({
     <section
       id="hero"
       data-nav-theme="dark"
-      className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-ink text-warm"
+      className={`relative isolate flex h-dvh overflow-hidden bg-ink text-warm ${
+        mark ? "items-start md:items-end" : "items-end"
+      }`}
     >
       <div className="absolute inset-0 overflow-hidden">
         <video
@@ -78,14 +80,18 @@ export function Hero({
             alt=""
             width={128}
             height={128}
-            className="h-24 w-24 object-contain md:h-32 md:w-32"
+            className="h-20 w-20 object-contain md:h-32 md:w-32"
             decoding="async"
           />
         </div>
       ) : null}
 
-      <div className="relative z-10 mx-auto w-full max-w-[92rem] px-6 pb-20 pt-36 md:px-10 md:pb-24">
-        <h1 className="reveal max-w-[22ch] font-serif text-[clamp(2.6rem,6.2vw,4.8rem)] leading-[1.06] tracking-[-0.02em] text-paper">
+      <div
+        className={`relative z-10 mx-auto w-full max-w-[92rem] px-6 md:px-10 ${
+          mark ? "pt-[8.75rem] md:pb-24 md:pt-36" : "pb-16 pt-8 md:pb-24"
+        }`}
+      >
+        <h1 className="reveal max-w-[22ch] font-serif text-[clamp(2.4rem,8vw,4.8rem)] leading-[1.06] tracking-[-0.02em] text-paper">
           {title}
         </h1>
       </div>
