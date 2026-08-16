@@ -10,9 +10,8 @@ export function SectionAndCo() {
       intro={
         <>
           <p>
-            The firm’s permanent ownership platform. It builds and owns
-            businesses intended to compound, combining internally originated
-            companies with selected strategic investments.
+            It owns the businesses the firm originates, and a limited number of
+            other interests held for the long term.
           </p>
           <a href="#portfolio" className="anchor mt-12 text-paper">
             View the portfolio

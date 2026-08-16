@@ -16,12 +16,12 @@ export function UtilityPage({ title, kicker, children }: Props) {
         <div className="nav-inner mx-auto flex max-w-[92rem] items-center justify-between px-6 md:px-10">
           <Wordmark />
           <div className="flex items-center gap-8">
-            <Link
-              href="/portal"
+            <a
+              href="#portal"
               className="border border-white/35 px-3.5 py-2 text-[0.68rem] tracking-[0.2em] uppercase text-warm/80 transition-colors hover:border-paper hover:text-paper"
             >
               Portal
-            </Link>
+            </a>
             <Link href="/" className="text-[0.7rem] tracking-[0.18em] uppercase text-warm/70 hover:text-paper">
               Home
             </Link>

@@ -3,7 +3,13 @@
 import { useEffect, useRef } from "react";
 import { site } from "@/lib/site";
 
-export function Hero() {
+export function Hero({
+  title = site.heroTitle,
+  mark = false,
+}: {
+  title?: string;
+  mark?: boolean;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -64,16 +70,24 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-black/30" />
       </div>
 
+      {mark ? (
+        <div className="absolute left-6 top-8 z-10 md:left-10 md:top-10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/crest-white-512.png"
+            alt=""
+            width={128}
+            height={128}
+            className="h-24 w-24 object-contain md:h-32 md:w-32"
+            decoding="async"
+          />
+        </div>
+      ) : null}
+
       <div className="relative z-10 mx-auto w-full max-w-[92rem] px-6 pb-20 pt-36 md:px-10 md:pb-24">
-        <h1 className="reveal max-w-[16ch] font-serif text-[clamp(2.6rem,6.2vw,4.8rem)] leading-[1.06] tracking-[-0.02em] text-paper">
-          {site.heroTitle}
+        <h1 className="reveal max-w-[22ch] font-serif text-[clamp(2.6rem,6.2vw,4.8rem)] leading-[1.06] tracking-[-0.02em] text-paper">
+          {title}
         </h1>
-        <p className="reveal reveal-delay-2 measure mt-8 text-[1.05rem] leading-8 text-warm/80">
-          {site.supporting}
-        </p>
-        <a href="#firm" className="anchor reveal reveal-delay-3 mt-14 text-paper">
-          Explore the firm
-        </a>
       </div>
     </section>
   );

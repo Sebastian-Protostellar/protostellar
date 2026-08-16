@@ -14,7 +14,7 @@ export default function DealPage() {
       <p>
         There is no public process, timeline or commitment implied by this form.
       </p>
-      <InquiryForm defaultInquiry="business" />
+      <InquiryForm />
     </UtilityPage>
   );
 }

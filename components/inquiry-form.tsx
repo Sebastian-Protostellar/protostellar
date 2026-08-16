@@ -1,79 +1,52 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { inquiryTypes, site } from "@/lib/site";
 
-type InquiryId = (typeof inquiryTypes)[number]["id"];
+export function InquiryForm({ className = "mt-12" }: { className?: string }) {
+  const [values, setValues] = useState({
+    name: "",
+    organization: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState("");
 
-const fields: {
-  name: string;
-  organization: string;
-  email: string;
-  inquiry: InquiryId;
-  message: string;
-} = {
-  name: "",
-  organization: "",
-  email: "",
-  inquiry: "capital",
-  message: "",
-};
-
-export function InquiryForm({
-  defaultInquiry = "capital",
-  className = "mt-12",
-}: {
-  defaultInquiry?: InquiryId;
-  className?: string;
-}) {
-  const [values, setValues] = useState({ ...fields, inquiry: defaultInquiry });
-  const [sent, setSent] = useState(false);
-
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const type = inquiryTypes.find((item) => item.id === values.inquiry)?.label ?? "";
-    const body = [
-      `Name: ${values.name}`,
-      `Organization: ${values.organization}`,
-      `Email: ${values.email}`,
-      `Nature of inquiry: ${type}`,
-      "",
-      values.message,
-    ].join("\n");
+    setStatus("sending");
+    setError("");
 
-    const href = `mailto:${site.email}?subject=${encodeURIComponent(`Inquiry — ${type}`)}&body=${encodeURIComponent(body)}`;
-    window.location.href = href;
-    setSent(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const data = (await response.json().catch(() => ({}))) as { error?: string };
+
+      if (!response.ok) {
+        setStatus("error");
+        setError(data.error || "Failed to send message. Please try again.");
+        return;
+      }
+
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+      setError("Failed to send message. Please try again.");
+    }
   }
 
   const inputClass =
     "w-full border-0 border-b border-rule bg-transparent py-3 text-[0.98rem] text-ink outline-none transition placeholder:text-mid focus:border-ink";
 
+  if (status === "sent") {
+    return <p className={`${className} text-[0.98rem] leading-7 text-ink/70`}>Your message has been sent.</p>;
+  }
+
   return (
     <form onSubmit={onSubmit} className={`${className} grid gap-8`} noValidate={false}>
-      <fieldset className="grid gap-3">
-        <legend className="kicker">Nature of inquiry</legend>
-        <div className="mt-4 grid gap-3">
-          {inquiryTypes.map((item) => (
-            <label key={item.id} className="flex cursor-pointer items-center gap-3 text-[0.98rem]">
-              <input
-                type="radio"
-                name="inquiry"
-                value={item.id}
-                checked={values.inquiry === item.id}
-                onChange={(event) =>
-                  setValues((current) => ({
-                    ...current,
-                    inquiry: event.target.value as InquiryId,
-                  }))
-                }
-                className="accent-ink"
-              />
-              {item.label}
-            </label>
-          ))}
-        </div>
-      </fieldset>
       <label className="grid gap-2">
         <span className="kicker">Name</span>
         <input
@@ -118,22 +91,14 @@ export function InquiryForm({
           className={`${inputClass} resize-y`}
         />
       </label>
-      <button type="submit" className="anchor w-fit text-ink">
-        Send inquiry
+      <button type="submit" className="anchor w-fit text-ink" disabled={status === "sending"}>
+        {status === "sending" ? "Sending" : "Send"}
       </button>
-      {sent ? (
-        <p className="text-sm text-ink/60">
-          Your message has been prepared for {site.email}. If a mail client does not open, write to the firm directly.
+      {status === "error" ? (
+        <p role="alert" className="text-sm text-ink/60">
+          {error}
         </p>
-      ) : (
-        <p className="text-sm text-ink/55">
-          Or write to{" "}
-          <a className="underline decoration-rule underline-offset-4" href={`mailto:${site.email}`}>
-            {site.email}
-          </a>
-          .
-        </p>
-      )}
+      ) : null}
     </form>
   );
 }

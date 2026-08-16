@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Poppins } from "next/font/google";
-import { ContactProvider } from "@/components/contact-dialog";
+import { PortalProvider } from "@/components/portal-dialog";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable} h-full antialiased`}>
       <body className="min-h-full bg-ink font-sans text-warm">
-        <ContactProvider>{children}</ContactProvider>
+        <PortalProvider>{children}</PortalProvider>
       </body>
     </html>
   );

@@ -12,19 +12,21 @@ export function SectionPortfolio() {
       kicker="Holdings"
       title="Portfolio"
     >
-      <ul className="mt-24 grid auto-rows-fr grid-cols-1 border-t border-l border-white/12 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-24 grid auto-rows-fr grid-cols-1 border-t border-l border-white/12 sm:grid-cols-2 lg:grid-cols-5">
         {portfolio.map((company) => {
           const brokr = company.slug === "brokr";
+          const crest = company.slug.startsWith("protostellar-");
+          const mark = crest ? "h-12 w-12" : "h-7 w-7";
           const inner = (
             <>
-              <span className="relative h-7 w-7">
+              <span className="relative flex h-12 w-12 items-center justify-start">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={company.logo}
                   alt=""
-                  width={28}
-                  height={28}
-                  className="h-7 w-7 object-contain opacity-0 transition-opacity duration-75 group-hover:opacity-100"
+                  width={crest ? 48 : 28}
+                  height={crest ? 48 : 28}
+                  className={`${mark} object-contain opacity-0 transition-opacity duration-75 group-hover:opacity-100`}
                 />
               </span>
               <h3

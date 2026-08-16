@@ -6,6 +6,9 @@ const emailAssetCache = [
 ];
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [{ source: "/hero", destination: "/", permanent: true }];
+  },
   async headers() {
     return [
       {

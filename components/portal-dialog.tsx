@@ -1,75 +1,58 @@
 "use client";
 
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
   useId,
   useRef,
   useState,
+  type FormEvent,
   type ReactNode,
 } from "react";
-import { InquiryForm } from "@/components/inquiry-form";
-import { inquiryTypes } from "@/lib/site";
 
-type InquiryId = (typeof inquiryTypes)[number]["id"];
-
-type ContactContextValue = {
-  open: (inquiry?: InquiryId) => void;
-  close: () => void;
-};
-
-const ContactContext = createContext<ContactContextValue | null>(null);
-
-export function useContact() {
-  const ctx = useContext(ContactContext);
-  if (!ctx) throw new Error("useContact must be used within ContactProvider");
-  return ctx;
-}
-
-function isContactHref(href: string | null) {
+function isPortalHref(href: string | null) {
   if (!href) return false;
   try {
-    return new URL(href, window.location.origin).hash === "#contact";
+    const url = new URL(href, window.location.origin);
+    return url.pathname === "/portal" || url.hash === "#portal";
   } catch {
-    return href === "#contact" || href.endsWith("#contact");
+    return href === "/portal" || href === "#portal" || href.endsWith("#portal");
   }
 }
 
-export function ContactProvider({ children }: { children: ReactNode }) {
+export function PortalProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
-  const [inquiry, setInquiry] = useState<InquiryId>("general");
+  const [email, setEmail] = useState("");
+  const [notice, setNotice] = useState("");
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
   const titleId = useId();
 
   const close = useCallback(() => {
     setOpen(false);
-    if (window.location.hash === "#contact") {
+    setNotice("");
+    if (window.location.hash === "#portal") {
       window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
     }
   }, []);
 
-  const show = useCallback((next?: InquiryId) => {
-    if (next) setInquiry(next);
+  const show = useCallback(() => {
     setOpen(true);
-    if (window.location.hash !== "#contact") {
-      window.history.pushState(null, "", "#contact");
+    if (window.location.hash !== "#portal") {
+      window.history.pushState(null, "", "#portal");
     }
   }, []);
 
   useEffect(() => {
-    const syncHash = () => {
-      if (window.location.hash === "#contact") setOpen(true);
-      else setOpen(false);
+    const sync = () => {
+      setOpen(window.location.hash === "#portal");
     };
-    syncHash();
-    window.addEventListener("hashchange", syncHash);
-    window.addEventListener("popstate", syncHash);
+    sync();
+    window.addEventListener("hashchange", sync);
+    window.addEventListener("popstate", sync);
     return () => {
-      window.removeEventListener("hashchange", syncHash);
-      window.removeEventListener("popstate", syncHash);
+      window.removeEventListener("hashchange", sync);
+      window.removeEventListener("popstate", sync);
     };
   }, []);
 
@@ -77,7 +60,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
     const onClick = (event: MouseEvent) => {
       const link = (event.target as HTMLElement | null)?.closest("a[href]");
       if (!link) return;
-      if (!isContactHref(link.getAttribute("href"))) return;
+      if (!isPortalHref(link.getAttribute("href"))) return;
       event.preventDefault();
       show();
     };
@@ -130,8 +113,16 @@ export function ContactProvider({ children }: { children: ReactNode }) {
     };
   }, [open, close]);
 
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setNotice("This email is not registered.");
+  }
+
+  const inputClass =
+    "w-full border-0 border-b border-rule bg-transparent py-3 text-[0.98rem] text-ink outline-none transition placeholder:text-mid focus:border-ink";
+
   return (
-    <ContactContext.Provider value={{ open: show, close }}>
+    <>
       {children}
       {open ? (
         <div className="fixed inset-0 z-[80]">
@@ -146,7 +137,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
               role="dialog"
               aria-modal="true"
               aria-labelledby={titleId}
-              className="pointer-events-auto relative my-auto w-full max-w-[34rem] bg-warm px-6 py-8 text-ink shadow-[0_24px_80px_rgba(0,0,0,0.35)] md:px-10 md:py-10"
+              className="pointer-events-auto relative my-auto w-full max-w-[28rem] bg-warm px-6 py-8 text-ink shadow-[0_24px_80px_rgba(0,0,0,0.35)] md:px-10 md:py-10"
             >
               <button
                 type="button"
@@ -155,18 +146,39 @@ export function ContactProvider({ children }: { children: ReactNode }) {
               >
                 Close
               </button>
-              <p className="kicker">Correspondence</p>
-              <h2 id={titleId} className="mt-4 max-w-[12ch] font-serif text-[clamp(2rem,4vw,2.75rem)] leading-[1.08]">
-                Contact Protostellar
+              <p className="kicker">Access</p>
+              <h2 id={titleId} className="mt-4 font-serif text-[clamp(2rem,4vw,2.75rem)] leading-[1.08]">
+                Portal
               </h2>
-              <p className="mt-5 text-[0.98rem] leading-7 text-ink/70">
-                Confidential inquiries may be directed to the firm.
+              <p className="mt-4 text-[0.98rem] leading-7 text-ink/70">
+                Enter your email to receive a magic link.
               </p>
-              <InquiryForm key={inquiry} defaultInquiry={inquiry} className="mt-8" />
+              <form onSubmit={onSubmit} className="mt-8 grid gap-8">
+                <label className="grid gap-2">
+                  <span className="kicker">Email</span>
+                  <input
+                    required
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    className={inputClass}
+                  />
+                </label>
+                <button type="submit" className="anchor w-fit text-ink">
+                  Sign in
+                </button>
+                {notice ? (
+                  <p role="alert" className="text-sm text-ink/60">
+                    {notice}
+                  </p>
+                ) : null}
+              </form>
             </div>
           </div>
         </div>
       ) : null}
-    </ContactContext.Provider>
+    </>
   );
 }

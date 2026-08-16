@@ -103,7 +103,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <a
-          href="/portal"
+          href="#portal"
           className="ml-auto border border-current/40 px-3.5 py-2 text-[0.68rem] tracking-[0.2em] uppercase transition-opacity hover:opacity-100 lg:ml-2"
         >
           Portal

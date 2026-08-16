@@ -4,15 +4,14 @@ import { useEffect, useState } from "react";
 
 const items = [
   { id: "hero", label: "01" },
-  { id: "firm", label: "02" },
-  { id: "protostellar-and-co", label: "03" },
-  { id: "protostellar-capital", label: "04" },
-  { id: "portfolio", label: "05" },
-  { id: "memos", label: "06" },
+  { id: "protostellar-and-co", label: "02" },
+  { id: "protostellar-capital", label: "03" },
+  { id: "portfolio", label: "04" },
 ];
 
 export function SectionRail() {
   const [active, setActive] = useState("hero");
+  const [overFooter, setOverFooter] = useState(false);
 
   useEffect(() => {
     const sections = items
@@ -28,13 +27,28 @@ export function SectionRail() {
       { rootMargin: "-40% 0px -40% 0px", threshold: [0.15, 0.4] },
     );
     sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+
+    const footer = document.getElementById("site-footer");
+    const footerObserver = footer
+      ? new IntersectionObserver(
+          ([entry]) => setOverFooter(Boolean(entry?.isIntersecting)),
+          { rootMargin: "0px 0px -40% 0px" },
+        )
+      : null;
+    if (footer && footerObserver) footerObserver.observe(footer);
+
+    return () => {
+      observer.disconnect();
+      footerObserver?.disconnect();
+    };
   }, []);
 
   return (
     <nav
       aria-label="Page sections"
-      className="pointer-events-none fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 xl:block"
+      className={`pointer-events-none fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 transition-opacity duration-200 xl:block ${
+        overFooter ? "opacity-0" : "opacity-100"
+      }`}
     >
       <ol className="flex flex-col gap-3">
         {items.map((item) => (

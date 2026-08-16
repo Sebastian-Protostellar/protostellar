@@ -4,10 +4,9 @@ export const site = {
   url: "https://protostellar.com",
   email: "contact@protostellar.com",
   statement:
-    "Protostellar is an investment firm building and owning exceptional businesses for the long term.",
-  heroTitle: "Protostellar builds and owns exceptional businesses.",
-  supporting:
-    "We originate, invest in and acquire businesses with the potential to endure.",
+    "Protostellar is an investment firm that originates, operates and owns long-term assets.",
+  heroTitle:
+    "Protostellar is an investment firm that originates, operates and owns long-term assets.",
   geography: ["New York", "London", "Melbourne"],
   social: [
     { label: "LinkedIn", href: "https://www.linkedin.com/company/79120136/" },
@@ -16,18 +15,10 @@ export const site = {
 } as const;
 
 export const nav = [
-  { href: "/#firm", id: "firm", label: "Firm" },
   { href: "/#protostellar-and-co", id: "protostellar-and-co", label: "Protostellar & Co." },
   { href: "/#protostellar-capital", id: "protostellar-capital", label: "Protostellar Capital" },
   { href: "/#portfolio", id: "portfolio", label: "Portfolio" },
-  { href: "/#memos", id: "memos", label: "Memos" },
-] as const;
-
-export const inquiryTypes = [
-  { id: "capital", label: "Capital partnerships" },
-  { id: "business", label: "Business and investment opportunities" },
-  { id: "careers", label: "Careers" },
-  { id: "general", label: "General inquiries" },
+  { href: "/contact", id: "contact", label: "Contact" },
 ] as const;
 
 export const portfolio = [
