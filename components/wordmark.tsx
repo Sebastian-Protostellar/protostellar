@@ -16,12 +16,12 @@ export function Wordmark({ href = "/", className = "", size = "header" }: Props)
           alt=""
           width={size === "footer" ? 40 : 128}
           height={size === "footer" ? 40 : 128}
-          className={size === "header" ? "nav-crest" : "h-10 w-10 object-contain"}
+          className={size === "header" ? "nav-crest" : "h-8 w-8 object-contain sm:h-10 sm:w-10"}
           decoding="async"
         />
       </span>
       {size === "footer" ? (
-        <span className="font-serif text-[1.25rem] leading-none tracking-[-0.03em] text-warm">
+        <span className="font-serif text-[1.1rem] leading-none tracking-[-0.03em] text-warm sm:text-[1.25rem]">
           Protostellar
         </span>
       ) : null}

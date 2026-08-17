@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Contact" };
 
 export default function ContactPage() {
   return (
-    <UtilityPage title="Contact">
+    <UtilityPage title="Contact" tight>
       <InquiryForm />
     </UtilityPage>
   );

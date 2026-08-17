@@ -5,13 +5,13 @@ export function SectionCapital() {
     <SectionFrame
       id="protostellar-capital"
       theme="light"
-      kicker="Asset manager"
+      kicker="Investment manager"
       title="Protostellar Capital"
       intro={
         <p>
-          The firm’s investment-management platform. It conducts private
-          investment activities and develops vehicles aligned with long-duration
-          capital allocation.
+          Protostellar Capital allocates capital for{" "}
+          <strong className="font-medium text-ink">Protostellar &amp; Co.</strong>{" "}
+          and related vehicles.
         </p>
       }
     />

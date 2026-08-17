@@ -6,10 +6,11 @@ import Link from "next/link";
 type Props = {
   title: string;
   kicker?: string;
+  tight?: boolean;
   children: ReactNode;
 };
 
-export function UtilityPage({ title, kicker, children }: Props) {
+export function UtilityPage({ title, kicker, tight = false, children }: Props) {
   return (
     <div className="min-h-screen bg-warm text-ink">
       <header className="site-nav is-scrolled sticky top-0 z-50" style={{ "--nav-p": "1" } as CSSProperties}>
@@ -28,10 +29,16 @@ export function UtilityPage({ title, kicker, children }: Props) {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-[42rem] px-6 py-20 md:py-28">
+      <main
+        className={`mx-auto max-w-[46rem] px-6 ${tight ? "py-14 md:py-16" : "py-20 md:py-28"}`}
+      >
         {kicker ? <p className="kicker">{kicker}</p> : null}
-        <h1 className={`font-serif text-5xl ${kicker ? "mt-5" : ""}`}>{title}</h1>
-        <div className="mt-12 space-y-6 text-[1.02rem] leading-8 text-ink/75">{children}</div>
+        <h1 className={`font-serif ${tight ? "text-4xl" : "text-5xl"} ${kicker ? "mt-5" : ""}`}>{title}</h1>
+        <div
+          className={`${tight ? "mt-8" : "mt-12"} text-[1.02rem] leading-8 text-ink/75 [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mt-14 [&_h2]:font-serif [&_h2]:text-[1.55rem] [&_h2]:leading-snug [&_h2]:tracking-[-0.03em] [&_h2]:text-ink [&_p+_p]:mt-6 [&_ul]:mt-6 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5`}
+        >
+          {children}
+        </div>
       </main>
       <SiteFooter />
     </div>

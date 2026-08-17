@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const CONTACT_TO = process.env.CONTACT_TO?.trim() || "brokr@protostellar.co";
+const CONTACT_TO = process.env.CONTACT_TO?.trim() || "contact@protostellar.co";
 const FROM_EMAIL =
   process.env.CONTACT_FROM?.trim() || "Protostellar <noreply@brokr.app>";
 
 type ContactBody = {
   name?: unknown;
-  organization?: unknown;
   email?: unknown;
   message?: unknown;
 };
@@ -34,7 +33,6 @@ export async function POST(request: Request) {
   }
 
   const name = isNonEmptyString(body.name) ? body.name.trim() : "";
-  const organization = isNonEmptyString(body.organization) ? body.organization.trim() : "";
   const email = isNonEmptyString(body.email) ? body.email.trim() : "";
   const message = isNonEmptyString(body.message) ? body.message.trim() : "";
 
@@ -63,16 +61,12 @@ export async function POST(request: Request) {
       subject: `Protostellar — message from ${name}`,
       text: [
         `Name: ${name}`,
-        organization ? `Organization: ${organization}` : null,
         `Email: ${email}`,
         "",
         message,
-      ]
-        .filter(Boolean)
-        .join("\n"),
+      ].join("\n"),
       html: `
         <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-        ${organization ? `<p><strong>Organization:</strong> ${escapeHtml(organization)}</p>` : ""}
         <p><strong>Email:</strong> ${escapeHtml(email)}</p>
         <hr />
         <p>${escapeHtml(message).replace(/\n/g, "<br />")}</p>

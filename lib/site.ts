@@ -1,8 +1,8 @@
 export const site = {
   name: "Protostellar",
   legalName: "Protostellar Inc.",
-  url: "https://protostellar.com",
-  email: "contact@protostellar.com",
+  url: "https://protostellar.co",
+  email: "contact@protostellar.co",
   statement:
     "Protostellar is an investment firm that originates, operates and owns long-term assets.",
   heroTitle:
@@ -15,6 +15,7 @@ export const site = {
 } as const;
 
 export const nav = [
+  { href: "/#about", id: "about", label: "About" },
   { href: "/#protostellar-and-co", id: "protostellar-and-co", label: "Protostellar & Co." },
   { href: "/#protostellar-capital", id: "protostellar-capital", label: "Protostellar Capital" },
   { href: "/#portfolio", id: "portfolio", label: "Portfolio" },
@@ -48,20 +49,12 @@ export const portfolio = [
     logoOnDark: "/logos/gatsbi.png",
   },
   {
-    slug: "protostellar-endeavour",
-    name: "Protostellar Endeavour I",
-    description: "A private vehicle for defined strategies and long-duration alignment.",
-    href: null,
-    logo: "/logos/crest-dark.png",
-    logoOnDark: "/logos/crest-dark.png",
-  },
-  {
     slug: "protostellar-re",
     name: "Protostellar Re",
     description: "Reinsurance in support of the firm’s ownership of businesses.",
     href: null,
     logo: "/logos/crest-dark.png",
-    logoOnDark: "/logos/crest-dark.png",
+    logoOnDark: "/brand/crest-white-512.png",
   },
 ] as const;
 

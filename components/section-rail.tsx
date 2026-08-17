@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 
 const items = [
   { id: "hero", label: "01" },
-  { id: "protostellar-and-co", label: "02" },
-  { id: "protostellar-capital", label: "03" },
-  { id: "portfolio", label: "04" },
+  { id: "about", label: "02" },
+  { id: "protostellar-and-co", label: "03" },
+  { id: "protostellar-capital", label: "04" },
+  { id: "portfolio", label: "05" },
 ];
 
 export function SectionRail() {

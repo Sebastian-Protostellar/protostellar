@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero";
+import { SectionAbout } from "@/components/section-about";
 import { SectionAndCo } from "@/components/section-and-co";
 import { SectionCapital } from "@/components/section-capital";
 import { SectionPortfolio } from "@/components/section-portfolio";
@@ -10,7 +11,7 @@ export default function Home() {
   return (
     <>
       <a
-        href="#protostellar-and-co"
+        href="#about"
         className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-[60] focus:bg-warm focus:px-4 focus:py-2 focus:text-ink"
       >
         Skip to content
@@ -19,6 +20,7 @@ export default function Home() {
       <SectionRail />
       <main>
         <Hero />
+        <SectionAbout />
         <SectionAndCo />
         <SectionCapital />
         <SectionPortfolio />

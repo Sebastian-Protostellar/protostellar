@@ -26,7 +26,7 @@ export function SectionFrame({
       className={`section ${dark ? "bg-ink text-warm" : "bg-warm text-ink"}`}
     >
       <div className="mx-auto max-w-[92rem] px-6 py-28 md:px-10 md:py-36">
-        <header className="grid items-end gap-8 md:grid-cols-12 md:gap-8">
+        <header className="grid items-start gap-8 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
             <p className="kicker">{kicker}</p>
             <h2 className="mt-5 font-serif text-[clamp(2.35rem,4.8vw,4.1rem)] leading-[1.06] tracking-[-0.02em]">
