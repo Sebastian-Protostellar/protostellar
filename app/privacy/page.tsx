@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import Link from "next/link";
 import { UtilityPage } from "@/components/utility-page";
 
 export const metadata: Metadata = { title: "Privacy" };
@@ -21,8 +21,8 @@ export default function PrivacyPage() {
       <p>
         Protostellar Inc. is the operator of this website. Depending on the
         nature of an inquiry, another Protostellar entity may receive or hold
-        the information you provide. Correspondence should be directed to{" "}
-        <a href={`mailto:${site.email}`}>{site.email}</a>.
+        the information you provide. Correspondence should be submitted through
+        the <Link href="/contact">Contact</Link> page.
       </p>
 
       <h2>Information we collect</h2>
@@ -85,7 +85,8 @@ export default function PrivacyPage() {
         Depending on your location, you may have the right to request access to
         personal information we hold about you, to correct it, to request
         deletion, or to object to or restrict certain processing. Those rights
-        are not absolute. To make a request, write to {site.email}. We may need
+        are not absolute. To make a request, submit it through the{" "}
+        <Link href="/contact">Contact</Link> page. We may need
         to verify your identity before acting.
       </p>
 
@@ -110,7 +111,8 @@ export default function PrivacyPage() {
 
       <h2>Contact</h2>
       <p>
-        Privacy inquiries: <a href={`mailto:${site.email}`}>{site.email}</a>
+        Privacy inquiries may be submitted through the{" "}
+        <Link href="/contact">Contact</Link> page.
         <br />
         Protostellar Inc., 250 Park Avenue, Floor 14, New York.
       </p>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { legalNotice, site } from "@/lib/site";
+import Link from "next/link";
+import { legalNotice } from "@/lib/site";
 import { UtilityPage } from "@/components/utility-page";
 
 export const metadata: Metadata = { title: "Terms of use" };
@@ -123,7 +124,8 @@ export default function LegalPage() {
 
       <h2>Contact</h2>
       <p>
-        <a href={`mailto:${site.email}`}>{site.email}</a>
+        Inquiries may be submitted through the <Link href="/contact">Contact</Link>{" "}
+        page.
         <br />
         Protostellar Inc., 250 Park Avenue, Floor 14, New York.
       </p>

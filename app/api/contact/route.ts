@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const CONTACT_TO = process.env.CONTACT_TO?.trim() || "contact@protostellar.co";
+const CONTACT_TO = process.env.CONTACT_TO?.trim() || "brokr@protostellar.co";
 const FROM_EMAIL =
   process.env.CONTACT_FROM?.trim() || "Protostellar <noreply@brokr.app>";
 

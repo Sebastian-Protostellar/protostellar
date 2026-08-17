@@ -2,7 +2,7 @@ export const site = {
   name: "Protostellar",
   legalName: "Protostellar Inc.",
   url: "https://protostellar.co",
-  email: "contact@protostellar.co",
+  email: "brokr@protostellar.co",
   statement:
     "Protostellar is an investment firm that originates, operates and owns long-term assets.",
   heroTitle:
